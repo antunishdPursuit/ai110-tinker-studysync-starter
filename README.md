@@ -62,3 +62,47 @@ pytest
 - `test_scoring.py` — starting point for your own tests
 
 Your instructor will tell you which tinker you're on. Follow the activity on the course portal.
+
+## Tinker 1B completion
+
+The Week 2 code was completed on September 17, 2026 and verified again on
+September 21 before publication. This record covers Split the Logic only;
+the starter tasks for Tinkers 2B and 3B remain for later activities.
+
+### Changes and verification
+
+- Added `test_session_rating_boundary_59_is_skip` before the function move.
+- Moved `apply_streak_bonus()` to `scoring_helpers.py` and imported it into
+  `scoring.py`; the bonus remains two points per streak day, capped at 100.
+- `python -B -m pytest -p no:cacheprovider -q`: **2 passed**, covering
+  `session_rating(59) == "Skip"` and `session_rating(90) == "Great"`.
+- `python -B scoring.py`: all five demo results match the starter output.
+
+For this activity, the assumed input is an integer score from the normal
+nonnegative, capped scoring path; the direct calls below were flagged
+outside that contract, so no new validation behavior was added.
+
+| Breaker input | Observed result | Decision |
+| --- | --- | --- |
+| `-10` | `Skip` | Flag out of scope: the normal scoring controls do not produce negative scores. |
+| `125` | `Great` | Flag out of scope: the normal bonus helper caps the score at 100. |
+| `87.5` | `Good` | Flag out of scope for the annotated integer contract; Python accepts the decimal at runtime. |
+
+### Part 4 reflection
+
+- **What was broken?** The working `apply_streak_bonus()` function was in
+  `scoring.py` instead of the shared helper module, and the starter tested
+  only the 90-point rating boundary.
+- **AI suggestion accepted:** Add the 59-point assertion and move the bonus
+  function with its import, then verify the tests and unchanged demo output.
+- **AI suggestion corrected:** The draft reflection's claim that a broad AI
+  rewrite had been rejected was removed because the recorded work does not
+  support it; the documented scope decision was to leave input validation
+  unchanged.
+- **Breaker input that mattered:** `87.5` returns `Good` despite the `int`
+  annotation, showing that the annotation does not enforce integer inputs
+  at runtime.
+
+These are preparation answers; the out-loud group discussion remains an
+in-class step. Two passing boundary tests do not establish coverage of all
+rating thresholds or invalid input types.
