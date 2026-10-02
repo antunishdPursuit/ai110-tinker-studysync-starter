@@ -50,6 +50,21 @@ Run the tests:
 pytest
 ```
 
+## Tinker 2B completion
+
+Week 4 `Wire It Up` is implemented in `sessions.py` and connected to the Session Log tab in `app.py`.
+
+- **Part 1:** The fixed counter uses `st.session_state` and increments across Streamlit reruns. The broken counter remains to show why a plain local variable resets.
+- **Part 2:** Empty or whitespace-only subjects and durations at or below zero show errors and are not stored. Valid subjects and positive durations are stored.
+- **Part 3:** `SessionDC` uses `@dataclass` with the same `subject`, `minutes`, and `priority` fields as `PlainSession`; the standalone demo prints both.
+- **Part 4:** `next_occurrence()` handles daily and weekly schedules. `find_conflicts()` returns each pair with the same slot once and safely returns an empty list when there are no conflicts.
+
+### Verification
+
+- `python -B sessions.py` prints the two expected dates, the matching conflict pair, and `[]` for an empty input.
+- `python -B -m pytest -p no:cacheprovider -q`: **2 passed**, using the existing scoring tests unchanged. The extra temporary session test file was removed; no new tests are included in this update.
+- Streamlit checks confirmed that the fixed counter persists across clicks, invalid session inputs are rejected, valid input is stored, and the full app renders all three tabs.
+
 ## Files
 
 - `app.py` — Streamlit entry point, wires the three tabs together
@@ -66,8 +81,8 @@ Your instructor will tell you which tinker you're on. Follow the activity on the
 ## Tinker 1B completion
 
 The Week 2 code was completed on September 17, 2026 and verified again on
-September 21 before publication. This record covers Split the Logic only;
-the starter tasks for Tinkers 2B and 3B remain for later activities.
+September 21 before publication. This section records Split the Logic. Tinker 2B is now completed above;
+Tinker 3B remains for its later activity.
 
 ### Changes and verification
 
